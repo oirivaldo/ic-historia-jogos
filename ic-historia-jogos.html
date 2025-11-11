@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Rivaldo Soares do Nascimento">
+    <title>História e Desenvolvimento dos Video Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --dark-bg: #0f0f1e;
+            --darker-bg: #070711;
+            --light-text: #ffffff;
+            --accent-color: #ff2d75;
+            --transition: all 0.5s ease;
+        }
+
+        [data-theme="light"] {
+            --dark-bg: #f5f5f7;
+            --darker-bg: #e5e5e7;
+            --light-text: #333333;
+            --primary-color: #2575fc;
+            --secondary-color: #6a11cb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            background-color: var(--dark-bg);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 1;
+        }
+
+        .slide.previous {
+            transform: translateX(-100%);
+        }
+
+        .slide-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+            animation: titleGlow 3s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from {
+                text-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(106, 17, 203, 0.8), 0 0 30px rgba(106, 17, 203, 0.6);
+            }
+        }
+
+        .slide-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--light-text);
+            max-width: 80%;
+        }
+
+        .slide-content {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .image-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover {
+            transform: scale(1.03);
+        }
+
+        .slide-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            transform: translateY(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-year {
+            background-color: var(--darker-bg);
+            color: var(--light-text);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            border: 2px solid var(--primary-color);
+        }
+
+        .timeline-content {
+            background-color: var(--darker-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            max-width: 150px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .engine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .engine-card {
+            background-color: var(--darker-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .engine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .engine-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .reference-list {
+            list-style-type: none;
+            margin-top: 2rem;
+        }
+
+        .reference-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .reference-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background-color: rgba(37, 117, 252, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background-color: rgba(37, 117, 252, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .music-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 6rem;
+            background-color: rgba(106, 17, 203, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            transition: var(--transition);
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        .music-toggle:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .slide-indicators {
+            position: fixed;
+            bottom: 6rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .indicator.active {
+            background-color: var(--accent-color);
+            transform: scale(1.2);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(7, 7, 17, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        .console-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .console-card {
+            background-color: var(--darker-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .console-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .console-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .console-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .console-year {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            opacity: 0.8;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 2rem;
+            }
+            
+            .slide-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .timeline::before {
+                display: none;
+            }
+            
+            .timeline-item {
+                margin-bottom: 1.5rem;
+                width: 100%;
+            }
+            
+            .timeline-content {
+                max-width: 100%;
+            }
+            
+            .engine-grid, .console-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animações extras */
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container">
+        <!-- Capa -->
+        <section class="slide active" id="slide-1">
+            <h1 class="slide-title">História e Desenvolvimento dos Video Games</h1>
+            <p class="slide-subtitle">Da era dos 8 bits aos mundos imersivos da atualidade</p>
+            <p class="slide-subtitle">Rivaldo Soares do Nascimento</p>
+            <div class="image-container pulse" style="max-width: 600px; margin-top: 2rem;">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Console de video game clássico" class="slide-image">
+            </div>
+        </section>
+
+        <!-- Contexto Histórico -->
+        <section class="slide" id="slide-2">
+            <h2 class="slide-title">Contexto Histórico</h2>
+            <div class="slide-content content-grid">
+                <div>
+                    <p>Os primeiros video games surgiram nas décadas de 60 e 70, quando cientistas e engenheiros começaram a explorar o potencial dos computadores para entretenimento.</p>
+                    <br>
+                    <p>Jogos pioneiros como <strong>Pong</strong> (1972), <strong>Space Invaders</strong> (1978) e <strong>Pac-Man</strong> (1980) estabeleceram as bases para uma indústria que se tornaria um fenômeno cultural global.</p>
+                    <br>
+                    <p>A evolução tecnológica permitiu que os jogos passassem de simples pontos na tela para mundos complexos e imersivos, transformando a forma como nos relacionamos com a tecnologia e o entretenimento.</p>
+                </div>
+                <div class="image-container">
+                    <img src="https://c.files.bbci.co.uk/A1BE/production/_122960414_gettyimages-1163037245.jpg" alt="Jogo Pong, um dos primeiros video games" class="slide-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Eras dos Bits -->
+        <section class="slide" id="slide-3">
+            <h2 class="slide-title">Eras dos Bits</h2>
+            <div class="slide-content">
+                <p>O termo "bits" refere-se à capacidade de processamento dos consoles, influenciando diretamente na qualidade gráfica e na complexidade dos jogos.</p>
+                
+                <div class="console-grid">
+                    <div class="console-card fade-in">
+                        <img src="https://img.odcdn.com.br/wp-content/uploads/2014/09/20140923153414.jpg" alt="Console Nintendo Entertainment System (NES)" class="console-image">
+                        <div class="console-name">Nintendo (NES)</div>
+                        <div class="console-year">8-bit • 1983</div>
+                    </div>
+                    <div class="console-card fade-in">
+                        <img src="https://http2.mlstatic.com/D_NQ_NP_746894-MLB85611073785_062025-O.webp" alt="Console Master System" class="console-image">
+                        <div class="console-name">Master System</div>
+                        <div class="console-year">8-bit • 1986</div>
+                    </div>
+                    <div class="console-card fade-in">
+                        <img src="https://s2-techtudo.glbimg.com/wiyDMhW-o8D5UAmR4pgTbXvwHXc=/0x0:695x391/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/A/V/mmDQgKQiC7sdFK74pqjQ/supernintendo.jpg" alt="Console Super Nintendo (SNES)" class="console-image">
+                        <div class="console-name">Super Nintendo (SNES)</div>
+                        <div class="console-year">16-bit • 1990</div>
+                    </div>
+                    <div class="console-card fade-in">
+                        <img src="https://http2.mlstatic.com/D_NQ_NP_971807-MLB84254071662_052025-O.webp" alt="Console Sega Mega Drive" class="console-image">
+                        <div class="console-name">Sega Mega Drive</div>
+                        <div class="console-year">16-bit • 1988</div>
+                    </div>
+                    <div class="console-card fade-in">
+                        <img src="https://http2.mlstatic.com/D_NQ_NP_808089-MLB84968076695_052025-O.webp" alt="Console PlayStation 1" class="console-image">
+                        <div class="console-name">PlayStation</div>
+                        <div class="console-year">32-bit • 1994</div>
+                    </div>
+                    <div class="console-card fade-in">
+                        <img src="https://levelupvideogames.com/product_images/uploaded_images/9ce9c249-9fd3-4d6f-b5c1-cd7babd0bf77.jpeg" alt="Console Nintendo 64" class="console-image">
+                        <div class="console-name">Nintendo 64</div>
+                        <div class="console-year">64-bit • 1996</div>
+                    </div>
+                    <div class="console-card fade-in">
+                        <img src="https://preview.redd.it/just-got-an-original-ps2-any-suggestions-for-having-a-ps2-v0-gw6qz24w1ym91.jpg?width=1080&crop=smart&auto=webp&s=e0b1b8a9c0df431939c2f35da40506821270c738" alt="Console PlayStation 2" class="console-image">
+                        <div class="console-name">PlayStation 2</div>
+                        <div class="console-year">128-bit* • 2000</div>
+                    </div>
+                </div>
+                <p>*O PS2 utilizava um núcleo de CPU de 64 bits com unidades de processamento vetorial (VPU) de 128 bits integradas no seu processador principal.</p>
+                <br>
+                <p>Cada avanço em bits permitiu gráficos mais detalhados, sons mais complexos e mundos de jogo mais expansivos, moldando as experiências dos jogadores através das décadas.</p>
+            </div>
+        </section>
+
+        <!-- Motores Gráficos - Introdução -->
+        <section class="slide" id="slide-4">
+            <h2 class="slide-title">Motores Gráficos</h2>
+            <div class="slide-content">
+                <p>Um motor gráfico (game engine) é um software que fornece as ferramentas e funcionalidades necessárias para criar e executar video games.</p>
+                <p>Os motores modernos incluem recursos para renderização gráfica, física, inteligência artificial, áudio e muito mais, permitindo que desenvolvedores criem experiências complexas com eficiência.</p>
+                
+                <div class="engine-grid">
+                    <div class="engine-card fade-in">
+                        <div class="image-container" style="margin-bottom: 1rem;">
+                            <a href="https://europe1.discourse-cdn.com/unity/original/3X/4/b/4bf8938d3add9da86a8945a271762b98aaea9412.jpeg" target="_blank">
+                                <img src="https://europe1.discourse-cdn.com/unity/original/3X/4/b/4bf8938d3add9da86a8945a271762b98aaea9412.jpeg" alt="Interface do Unity" class="slide-image">
+                            </a>
+                        </div>
+                        <h3 class="engine-title">Unity</h3>
+                        <p><strong>Linguagem:</strong> C#</p>
+                        <p><strong>Destaque:</strong> Versatilidade e suporte multiplataforma</p>
+                        <p><strong>Exemplos:</strong> Hollow Knight, Cuphead, Monument Valley</p>
+                    </div>
+                    <div class="engine-card fade-in">
+                        <div class="image-container" style="margin-bottom: 1rem;">
+                            <a href="https://cdn.mos.cms.futurecdn.net/wZX3kfcBTyyq3uhQdQFFcb.jpg" target="_blank">
+                                <img src="https://cdn.mos.cms.futurecdn.net/wZX3kfcBTyyq3uhQdQFFcb.jpg" alt="Interface do Unreal Engine" class="slide-image">
+                            </a>
+                        </div>
+                        <h3 class="engine-title">Unreal Engine</h3>
+                        <p><strong>Linguagem:</strong> C++, Blueprints</p>
+                        <p><strong>Destaque:</strong> Gráficos realistas de alta qualidade</p>
+                        <p><strong>Exemplos:</strong> Fortnite, Gears of War, BioShock</p>
+                    </div>
+                    <div class="engine-card fade-in">
+                        <div class="image-container" style="margin-bottom: 1rem;">
+                            <a href="https://cdn.prod.website-files.com/644188e5702ceee70f4eeaa8/65a18a059c52cdc31fbf5a63_blender%20article%20face.png" target="_blank">
+                                <img src="https://cdn.prod.website-files.com/644188e5702ceee70f4eeaa8/65a18a059c52cdc31fbf5a63_blender%20article%20face.png" alt="Interface do Blender mostrando uma cena 3D" class="slide-image">
+                            </a>
+                        </div>
+                        <h3 class="engine-title">Blender - Menção Honrosa</h3>
+                        <p><strong>Linguagem:</strong> Python (para scripts e automação)</p>
+                        <p><strong>Destaque:</strong> Suíte completa e gratuita para criação 3D</p>
+                        <p><strong>Exemplos de uso:</strong> Produção de filmes animados, efeitos visuais (VFX), assets para jogos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Motores Gráficos - Continuação -->
+        <section class="slide" id="slide-5">
+            <h2 class="slide-title">Motores Gráficos</h2>
+            <div class="slide-content">
+              <div class="engine-grid">
+                  <div class="engine-card fade-in">
+                      <div class="image-container" style="margin-bottom: 1rem;">
+                          <a href="https://raw.githubusercontent.com/godotengine/godot-design/master/screenshots/editor_tps_demo_1920x1080.jpg" target="_blank">
+                              <img src="https://raw.githubusercontent.com/godotengine/godot-design/master/screenshots/editor_tps_demo_1920x1080.jpg" alt="Interface do Godot Engine" class="slide-image">
+                          </a>
+                      </div>
+                      <h3 class="engine-title">Godot Engine</h3>
+                      <p><strong>Linguagem:</strong> GDScript, C#</p>
+                      <p><strong>Destaque:</strong> Open source e leve</p>
+                      <p><strong>Exemplos:</strong> Cruelty Squad, Dog Mendonça & Pizza Boy</p>
+                  </div>
+                  <div class="engine-card fade-in">
+                      <div class="image-container" style="margin-bottom: 1rem;">
+                          <a href="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1118650/ss_059b0bda62ea0e5c14594307e1f604c9b6c06867.1920x1080.jpg?t=1675972900" target="_blank">
+                              <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1118650/ss_059b0bda62ea0e5c14594307e1f604c9b6c06867.1920x1080.jpg?t=1675972900" alt="Interface do RPG Maker" class="slide-image">
+                          </a>
+                      </div>
+                      <h3 class="engine-title">RPG Maker</h3>
+                      <p><strong>Linguagem:</strong> Script próprio</p>
+                      <p><strong>Destaque:</strong> Acessível para iniciantes</p>
+                      <p><strong>Exemplos:</strong> To the Moon, Omori</p>
+                  </div>
+                  <div class="engine-card fade-in">
+                      <div class="image-container" style="margin-bottom: 1rem;">
+                          <a href="https://www.solarus-games.org/img/features/editor.webp" target="_blank">
+                              <img src="https://www.solarus-games.org/img/features/editor.webp" alt="Interface do Solarus Engine" class="slide-image">
+                          </a>
+                      </div>
+                      <h3 class="engine-title">Solarus Engine</h3>
+                      <p><strong>Linguagem:</strong> Lua</p>
+                      <p><strong>Destaque:</strong> Especializado em jogos estilo Zelda</p>
+                      <p><strong>Exemplos:</strong> Zelda Mystery of Solarus DX</p>
+                  </div>
+              </div>
+            </div>
+        </section>
+
+        <!-- Plataformas de Criação -->
+        <section class="slide" id="slide-6">
+            <h2 class="slide-title">Plataformas de Criação</h2>
+            <div class="slide-content content-grid">
+                <div>
+                    <h3>Jogos que criam jogos</h3>
+                    <p><strong>Roblox</strong> e <strong>Fortnite Creative</strong> permitem que os jogadores criem suas próprias experiências dentro do jogo, democratizando o desenvolvimento de games.</p>
+                    <br>
+                    <h3>Scratch</h3>
+                    <p>Plataforma educacional desenvolvida pelo MIT que ensina programação através da criação de jogos e animações simples. Usado por milhões de crianças e iniciantes em todo o mundo.</p>
+                    <br>
+                    <h3>Tendência Atual</h3>
+                    <p>Em 2025, observa-se uma tendência crescente de jogadores de PC preferindo títulos AA (mid-tier) e indie aos AAA (de alto orçamento), demonstrando a diversificação do mercado.</p>
+                </div>
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1139&q=80" alt="Crianças programando com Scratch" class="slide-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Jogos Famosos -->
+        <section class="slide" id="slide-7">
+            <h2 class="slide-title">Jogos Famosos e Populares</h2>
+            <div class="slide-content">
+                <div class="content-grid">
+                    <div>
+                        <h3>Gerações de Jogos Icônicos</h3>
+                        <ul>
+                            <li><strong>Anos 80:</strong> Super Mario Bros., The Legend of Zelda, Pac-Man</li>
+                            <li><strong>Anos 90:</strong> Final Fantasy VII, Sonic, Doom</li>
+                            <li><strong>Anos 2000:</strong> Grand Theft Auto: San Andreas, Halo, World of Warcraft</li>
+                            <li><strong>Anos 2010:</strong> Minecraft, The Last of Us, Fortnite</li>
+                            <li><strong>Anos 2020:</strong> Elden Ring, Cyberpunk 2077, Baldur's Gate 3</li>
+                        </ul>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Coleção de jogos clássicos" class="slide-image">
+                    </div>
+                </div>
+                <br>
+                <p>Cada geração trouxe inovações técnicas e narrativas que expandiram as possibilidades do meio, transformando os video games em uma forma de arte reconhecida.</p>
+            </div>
+        </section>
+
+        <!-- Curiosidades -->
+        <section class="slide" id="slide-8">
+            <h2 class="slide-title">Curiosidades</h2>
+            <div class="slide-content">
+                <div class="content-grid">
+                    <div>
+                        <ul>
+                            <li>A indústria de games já supera a indústria cinematográfica em faturamento global</li>
+                            <li>Mais de 3 bilhões de pessoas jogam video games em todo o mundo</li>
+                            <li>O jogo mais vendido da história é Minecraft, com mais de 300 milhões de cópias</li>
+                            <li>Os eSports movimentam bilhões de dólares anualmente</li>
+                            <li>O desenvolvimento de um jogo AAA pode custar centenas de milhões de dólares</li>
+                            <li>Jogadores de PC estão preferindo títulos AA e indie aos AAA em 2025</li>
+                        </ul>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Arena de eSports com multidão" class="slide-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Santo dos Video Games -->
+        <section class="slide" id="slide-9">
+            <h2 class="slide-title">Santo dos Video Games</h2>
+            <div class="slide-content content-grid">
+                <div>
+                    <h3>São Carlos Acutis</h3>
+                    <p>Conhecido como o "padroeiro dos gamers", Carlo Acutis (1991-2006) foi um adolescente italiano beatificado pela Igreja Católica em 2020.</p>
+                    <p>Ele era apaixonado por computadores e programação, usando suas habilidades para criar sites que catalogavam milagres eucarísticos e promoviam a fé católica.</p>
+                    <p>Sua canonização e associação ao universo digital destacam como a tecnologia pode ser usada para fins positivos e espirituais.</p>
+                </div>
+                <div class="image-container">
+                    <img src="https://contents.pep.ph/images2/images2/2025/06/15/new-project-86-1749976858.jpg" alt="Carlo Acutis, o santo dos video games" class="slide-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Encerramento -->
+        <section class="slide" id="slide-10">
+            <h2 class="slide-title">Por hora... é isso!</h2>
+            <div class="slide-content">
+                <p>Os video games evoluíram de simples experimentos técnicos para uma forma de arte complexa e uma indústria bilionária que influencia a cultura global.</p>
+                
+                <div class="content-grid" style="margin: 2rem 0;">
+                    <div>
+                        <h3>Impacto Social e Cultural</h3>
+                        <ul>
+                            <li>Formação de comunidades globais</li>
+                            <li>Influência na música, cinema e moda</li>
+                            <li>Ferramenta educacional e terapêutica</li>
+                            <li>Reflexão sobre questões sociais complexas</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Perspectivas Futuras</h3>
+                        <ul>
+                            <li>Realidade Virtual e Aumentada</li>
+                            <li>Inteligência Artificial generativa</li>
+                            <li>Metaverso e experiências imersivas</li>
+                            <li>Cloud gaming e streaming</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p>O futuro dos video games promete experiências ainda mais imersivas e personalizadas, continuando a expandir os limites da tecnologia e da criatividade humana.</p>
+            </div>
+        </section>
+
+        <!-- Referências -->
+        <section class="slide" id="slide-11">
+            <h2 class="slide-title">Referências Bibliográficas</h2>
+            <div class="slide-content">
+                <ul class="reference-list">
+                    <li>Digital Game History Project. (2023). A Brief History of Video Games. Disponível em https://gamehistory.org</li>
+                    <li>IGN. (2023). The Evolution of Gaming: From Pong to PlayStation 5. Disponível em https://www.ign.com</li>
+                    <li>Polygon. (2023). How Game Engines Power the Video Games We Love. Disponível em https://www.polygon.com</li>
+                    <li>Unity Technologies. (2023). Unity Documentation. Disponível em https://docs.unity3d.com</li>
+                    <li>Epic Games. (2023). Unreal Engine Documentation. Disponível em https://docs.unrealengine.com</li>
+                    <li>Godot Engine. (2023). Godot Documentation. Disponível em https://docs.godotengine.org</li>
+                    <li>Donovan, T. (2010). Replay: The History of Video Games. Yellow Ant.</li>
+                    <li>Kent, S. L. (2001). The Ultimate History of Video Games: From Pong to Pokémon. Three Rivers Press.</li>
+                    <li>Gamehall. (2025). Jogadores de PC preferem AA e indies aos AAA em 2025. Disponível em https://gamehall.com.br/jogadores-de-pc-preferem-aa-e-indies-aos-aaa-em-2025/</li>
+                    <li>CursoGame.Dev. (2025). Melhores Engines de Jogos 2025: Comparativo Completo. Disponível em https://cursogame.dev/blog/melhores-engines-de-jogos-2025</li>
+                    <li>MEUPS. (2023). De 1994 a 2023: a evolução do design de PlayStation pelas gerações. Disponível em https://meups.com.br/especiais/design-playstation-longo-geracoes/</li>
+                </ul>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="nav-btn" onclick="goToSlide(0)">↺</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Controles de navegação -->
+    <button class="theme-toggle" id="themeToggle">🌙</button>
+    <button class="music-toggle" id="musicToggle">♫</button>
+    
+    <div class="slide-indicators" id="slideIndicators">
+        <!-- Os indicadores serão gerados pelo JavaScript -->
+    </div>
+    
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn">←</button>
+        <button class="nav-btn" id="nextBtn">→</button>
+    </div>
+    
+    <div class="footer">
+        Intordução a Ciência da Computação - História dos Video Games - Produzido por Rivaldo Soares do Nascimento - 2025
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <script>
+        // Configuração inicial
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const themeToggle = document.getElementById('themeToggle');
+        const musicToggle = document.getElementById('musicToggle');
+        const bgMusic = document.getElementById('bgMusic');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideIndicators = document.getElementById('slideIndicators');
+        let isMusicPlaying = false;
+
+        // Inicializar indicadores de slide
+        function initSlideIndicators() {
+            for (let i = 0; i < totalSlides; i++) {
+                const indicator = document.createElement('div');
+                indicator.classList.add('indicator');
+                if (i === currentSlide) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSlide(i));
+                slideIndicators.appendChild(indicator);
+            }
+        }
+
+        // Navegar para um slide específico
+        function goToSlide(slideIndex) {
+            // Remover classe active do slide atual
+            slides[currentSlide].classList.remove('active');
+            
+            // Adicionar classe previous para animação de saída
+            slides[currentSlide].classList.add('previous');
+            
+            // Atualizar slide atual
+            currentSlide = slideIndex;
+            
+            // Remover classe previous e adicionar active ao novo slide
+            setTimeout(() => {
+                slides.forEach(slide => slide.classList.remove('previous'));
+                slides[currentSlide].classList.add('active');
+                
+                // Atualizar indicadores
+                updateIndicators();
+            }, 300);
+        }
+
+        // Atualizar indicadores ativos
+        function updateIndicators() {
+            const indicators = document.querySelectorAll('.indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+
+        // Próximo slide
+        function nextSlide() {
+            const next = currentSlide < totalSlides - 1 ? currentSlide + 1 : 0;
+            goToSlide(next);
+        }
+
+        // Slide anterior
+        function prevSlide() {
+            const prev = currentSlide > 0 ? currentSlide - 1 : totalSlides - 1;
+            goToSlide(prev);
+        }
+
+        // Alternar tema claro/escuro
+        function toggleTheme() {
+            const body = document.body;
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+            }
+        }
+
+        // Alternar música de fundo
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggle.textContent = '♫';
+            } else {
+                bgMusic.play().catch(e => console.log("Reprodução de áudio bloqueada:", e));
+                musicToggle.textContent = '🔊';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // Navegação por teclado
+        function handleKeydown(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        }
+
+        // Inicialização
+        function init() {
+            // Criar indicadores de slide
+            initSlideIndicators();
+            
+            // Adicionar event listeners
+            themeToggle.addEventListener('click', toggleTheme);
+            musicToggle.addEventListener('click', toggleMusic);
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+            document.addEventListener('keydown', handleKeydown);
+            
+            // Adicionar animação de entrada para elementos com a classe fade-in
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 1s ease forwards';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => observer.observe(el));
+        }
+
+        // Iniciar a apresentação quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
